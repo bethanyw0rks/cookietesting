@@ -7,9 +7,10 @@
 
 <div id="msg">
 	<p>Can we set a cookie?</p>
-	<p><a href="/cookietesting/index.html">What if the user clicks on this link?</a></p>
+	<p><a href="/cookietesting/index.html" target="_blank">What if the user clicks on this link?</a></p>
 </div>
 
+<button id="close-button" onclick="self.close()">Close</button>
 
 <script>
 	test_cookie = createCookie('test_cookie', 'something', 1);
@@ -17,7 +18,11 @@
 		postMsg("Could not set cookie.");
 	} else { 
 		postMsg("Could set cookie.");
+		if (inIframe()) { 
+			document.getElementById("close-button").remove();
+		}
 	}
+	
 	
 	function postMsg(msg) { 
 		var node = document.createElement("p");
@@ -50,6 +55,14 @@
 
 	function eraseCookie(name) {
 		createCookie(name, "", -1);
+	}
+	
+	function inIframe () {
+		try {
+			return window.self !== window.top;
+		} catch (e) {
+			return true;
+		}
 	}
 </script>
 	
